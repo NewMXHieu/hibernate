@@ -60,9 +60,9 @@ public class XuLyViPhamFormAdd extends javax.swing.JFrame {
             int maXL= xlBll.AuToID()+1;
             xuly xl = new xuly();
             xl.setMaXL(maXL);
-            xl.setSoTien(soTien);
             xl.setMaTV(maxl);
             xl.setHinhThucXL(hinhThucXL);
+            xl.setSoTien(soTien);
             xl.setNgayXL(ngayXL);
             xl.setTrangThaiXL(trangThai);
             
@@ -215,9 +215,9 @@ public class XuLyViPhamFormAdd extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
                     .addComponent(dateXL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(46, 46, 46)
                 .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(9, Short.MAX_VALUE))
         );
 
         pack();

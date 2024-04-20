@@ -31,6 +31,7 @@ public class XuLyViPhamForm extends javax.swing.JInternalFrame {
         loadXuLy(null);
     }
 
+
     protected void loadXuLy(List l) {
         List<xuly> list = null;
         if (l == null) {
@@ -39,7 +40,7 @@ public class XuLyViPhamForm extends javax.swing.JInternalFrame {
             list = l;
         }
 
-        String[] colNames = {"Mã xử lý", "Tên thành viên", "Hình thức xử lý", "Số tiền", "Ngày xử lý"};
+        String[] colNames = {"Mã xử lý", "Tên thành viên", "Hình thức xử lý", "Số tiền", "Ngày xử lý", "Trạng thái"};
 
         Object[][] rows = new Object[list.size()][colNames.length];
 
@@ -51,6 +52,9 @@ public class XuLyViPhamForm extends javax.swing.JInternalFrame {
             rows[i][2] = list.get(i).getHinhThucXL();
             rows[i][3] = list.get(i).getSoTien();
             rows[i][4] = list.get(i).getNgayXL();
+            int trangThaiXL = list.get(i).getTrangThaiXL();
+            String trangThai = trangThaiXL == 1 ? "Chưa xử lý" : "Đã xử lý";
+            rows[i][5] = trangThai;
         }
 
         DefaultTableModel model = new DefaultTableModel(rows, colNames);
@@ -221,37 +225,38 @@ public class XuLyViPhamForm extends javax.swing.JInternalFrame {
             TableModel model = jTable1.getModel();
             int maXl = Integer.parseInt(model.getValueAt(row, 0).toString());
 
-            try {
+            String trangThai = model.getValueAt(row, 5).toString();
+            if (trangThai.equals("Chưa xử lý")) {
                 XuLyViPhamFormEdit form = new XuLyViPhamFormEdit(this, maXl);
                 form.setVisible(true);
-            } catch (NumberFormatException ex) {
-                ex.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Giá trị không hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Không thể sửa vì trạng thái đã xử lý", "Lỗi", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Chưa chọn hàng để sửa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Bạn chưa chọn dòng để sửa", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnEditMouseClicked
 
     private void btnDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteMouseClicked
         int row = jTable1.getSelectedRow();
-        if (row == -1) {
-            JOptionPane.showMessageDialog(this, "Chưa chọn xử lý để xóa", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        TableModel model = jTable1.getModel();
-        int maXl = Integer.parseInt(model.getValueAt(row, 0).toString()); // Lấy mã xử lý từ cột thứ hai
-        xuly objFormDb = xlBll.GetXuLyById(maXl);
-        int dialogResult = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa?", "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
-        if (dialogResult == JOptionPane.YES_OPTION) {
-            if (xlBll.RemoveXuLy(objFormDb) == 1) {
-                JOptionPane.showMessageDialog(null, "Xóa thành công", "Message", JOptionPane.INFORMATION_MESSAGE);
+        if (row != -1) {
+            TableModel model = jTable1.getModel();
+            int selectRows = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa", "Confirm", JOptionPane.YES_NO_OPTION);
+            int maXl = Integer.parseInt(model.getValueAt(row, 0).toString());
+            if(selectRows == JOptionPane.YES_OPTION){
+                try {
+                xlBll.RemoveXuLy(maXl);
+                JOptionPane.showMessageDialog(this, "Xóa thành công");
                 Refresh();
-            } else {
-                JOptionPane.showMessageDialog(null, "Xóa thất bại", "Message", JOptionPane.INFORMATION_MESSAGE);
+                }catch (Exception ex){
+                    JOptionPane.showMessageDialog(this, "Xóa thất bại");
+                }
             }
         }
+        else {
+            JOptionPane.showMessageDialog(this, "Bạn chưa chọn dòng để xóa");
+        }
+
     }//GEN-LAST:event_btnDeleteMouseClicked
 
     private void btnRefreshMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRefreshMouseClicked
@@ -280,5 +285,6 @@ public class XuLyViPhamForm extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField txtSearch;
+
     // End of variables declaration//GEN-END:variables
 }

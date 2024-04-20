@@ -22,8 +22,8 @@ public class XuLyBLL {
 
     public int EditXuLy(xuly xl) {return xlDal.UpdateXuLy(xl);}
 
-    public int RemoveXuLy(xuly xl) {
-        return xlDal.DeleteXuLy(xl);
+    public int RemoveXuLy(int id) {
+        return xlDal.DeleteXuLy(id);
     }
     public xuly GetXuLyById(int maXl) {
         return xlDal.GetXuLyById(maXl);

@@ -20,7 +20,7 @@ public class XuLyDAL {
         List<xuly> list = null;
         try {
             tx = session.beginTransaction();
-            list = session.createQuery("FROM xuly WHERE TrangThaiXL = 1 ", xuly.class).list();
+            list = session.createQuery("FROM xuly", xuly.class).list();
         } catch (HibernateException e) {
             if (tx != null) tx.rollback();
             e.printStackTrace();
@@ -68,26 +68,30 @@ public class XuLyDAL {
         }
         return result;
     }
-    public int DeleteXuLy(xuly xl) {
+    public int DeleteXuLy(int id) {
         Session session = factory.openSession();
         Transaction tx = null;
         int result = 0;
         try {
             tx = session.beginTransaction();
-            xl.setTrangThaiXL(0);
-            session.update(xl);
-            tx.commit();
-            result = 1; // Nếu không có ngoại lệ, xóa thành công
+            xuly xl = session.get(xuly.class, id);
+            if (xl != null) {
+                session.delete(xl);
+                tx.commit();
+                result = 1;
+            } else {
+                result = 0;
+            }
         } catch (Exception ex) {
             if (tx != null) {
                 tx.rollback();
             }
-            ex.printStackTrace();
         } finally {
             session.close();
         }
         return result;
     }
+
     public xuly GetXuLyById(int maXl) {
         Session session = factory.openSession();
         xuly obj = null;

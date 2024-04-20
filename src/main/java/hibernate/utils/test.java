@@ -18,7 +18,7 @@ public class test {
             tv.setHoTen("ten test");
             tv.setKhoa("khoa test");
             tv.setNganh("nghanh test");
-            tv.setSDT(123456788);
+            tv.setSDT(String.valueOf(123456788));
             session.save(tv);
             session.getTransaction().commit();
 
