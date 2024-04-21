@@ -4,7 +4,17 @@
  */
 package UI;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import javax.swing.table.DefaultTableModel;
+
+import BLL.ThanhVienBLL;
+import BLL.ThongTinSDBLL;
+import hibernate.entity.thanhvien;
+import hibernate.entity.thongtinsd;
 
 /**
  *
@@ -15,13 +25,18 @@ public class ThongKeForm extends javax.swing.JInternalFrame {
     /**
      * Creates new form QuanLyThanhVienForm
      */
+    private ThongTinSDBLL ttBLL;
+    private ThanhVienBLL tvBLL;
     public ThongKeForm() {
         initComponents();
         this.setBorder(javax.swing.BorderFactory.createEmptyBorder());
         BasicInternalFrameUI ui  = (BasicInternalFrameUI)this.getUI();
         ui.setNorthPane(null);
+        ttBLL = new ThongTinSDBLL();
+        tvBLL = new ThanhVienBLL();
+        loadTVTable(null);
+        loadCombobox();
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -56,7 +71,11 @@ public class ThongKeForm extends javax.swing.JInternalFrame {
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton1.setText("Refresh");
-
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+            	refreshClicked(evt);
+            };;});
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         jLabel2.setText("Lịch sử vào khu học tập");
 
@@ -68,7 +87,7 @@ public class ThongKeForm extends javax.swing.JInternalFrame {
                         {null, null, null}
                 },
                 new String [] {
-                        "Họ và Tên", "Thời gian vào", "Thời gian ra"
+                        "Họ và Tên", "Khoa", "Ngành", "Thời gian vào"
                 }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -87,7 +106,11 @@ public class ThongKeForm extends javax.swing.JInternalFrame {
 
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton2.setText("Search");
-
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+            	searchClicked(evt);
+            };;});
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel3.setText("Tổng số lượt vào:");
 
@@ -210,7 +233,58 @@ public class ThongKeForm extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>
-
+    private void loadCombobox() {
+    	ArrayList<String> listkhoa = tvBLL.getListKhoa();
+    	ArrayList<String> listnganh = tvBLL.getListNganh();
+    	for(String khoa : listkhoa) {
+    		jComboBox1.addItem(khoa);
+    	}
+    	for(String nganh : listnganh) {
+    		jComboBox2.addItem(nganh);
+    	}
+    }
+    private void loadTVTable(List l) {
+    	List<thongtinsd> listTTSD = null;
+    	if (l == null)
+    		listTTSD = ttBLL.GetAllThongTinSD();
+    	else listTTSD = l;
+    	DefaultTableModel model = (DefaultTableModel) jTable1.getModel();   
+    	model.setRowCount(0);
+    	int soluong = 0;
+    	for (thongtinsd tt : listTTSD) {
+    		thanhvien tv = tvBLL.getById(tt.getMaTV());
+    		Object[] row = {
+    				tvBLL.GetHoTenByID(tt.getMaTV()),
+    				tv.getKhoa(),
+    				tv.getNganh(),
+    				tt.getTGVao()
+    				,
+    		};
+    		soluong = soluong + 1;
+    		model.addRow(row);
+    	}
+    	jLabel4.setText(Integer.toString(soluong));
+    }
+    private void searchClicked(java.awt.event.MouseEvent evt) {
+    	List<thongtinsd> searchedList = null;
+    	String khoa = null;
+    	String nganh = null;
+    	Date date = jDateChooser1.getDate();
+    	if(jComboBox1.getSelectedIndex() != 0) { 
+    		khoa = (String) jComboBox1.getSelectedItem();
+    	}
+    	if (jComboBox2.getSelectedIndex() != 0) {
+    		nganh = (String) jComboBox2.getSelectedItem();
+    	}
+    	searchedList = ttBLL.searchThongTinSD(date, khoa, nganh);
+    	loadTVTable(searchedList);
+    }
+    private void refreshClicked(java.awt.event.MouseEvent evt) {
+    	jDateChooser1.setDate(null);
+    	jComboBox1.setSelectedIndex(0);
+    	jComboBox2.setSelectedIndex(0);
+    	loadTVTable(null);
+    }
     private void jDateChooser1AncestorResized(java.awt.event.HierarchyEvent evt) {
         // TODO add your handling code here:
     }
