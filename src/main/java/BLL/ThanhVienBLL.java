@@ -4,6 +4,7 @@ import DAL.ThanhVienDAL;
 import hibernate.entity.thanhvien;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ThanhVienBLL {
@@ -26,6 +27,12 @@ public class ThanhVienBLL {
     }
     public int AddThanhVien(thanhvien tv){
         return tvDal.CreateThanhVien(tv);
+    }
+    public ArrayList<String> getListKhoa() {
+    	return tvDal.getListKhoa();
+    }
+    public ArrayList<String> getListNganh(){
+    	return tvDal.getListNganh();
     }
     public int EditThanhVien(thanhvien tv){return tvDal.UpdateThanhVien(tv);}
     public int RemoveThanhVien(thanhvien tv){return tvDal.DeleteThanhVien(tv);}

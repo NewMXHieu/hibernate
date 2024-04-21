@@ -4,6 +4,7 @@ package BLL;
 import DAL.ThongTinSDDAL;
 import hibernate.entity.thongtinsd;
 
+import java.util.Date;
 import java.util.List;
 
 public class ThongTinSDBLL {
@@ -12,6 +13,9 @@ public class ThongTinSDBLL {
 
     public List GetAllThongTinSD(){
         return ttDal.ReadTTSD();
+    }
+    public List searchThongTinSD(Date date, String khoa, String nganh) {
+    	return ttDal.searchTTSD(date, khoa, nganh);
     }
     public List<thongtinsd> GetTVById(int matv){return ttDal.readTVById(matv);}
 
