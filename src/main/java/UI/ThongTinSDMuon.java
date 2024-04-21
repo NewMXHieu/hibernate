@@ -206,8 +206,6 @@ public class ThongTinSDMuon extends javax.swing.JDialog {
         if (addResult == 1) {
             JOptionPane.showMessageDialog(null, "Mượn thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             this.dispose();
-        } else {
-            JOptionPane.showMessageDialog(null, "Mượn không thành công", "Thông báo", JOptionPane.WARNING_MESSAGE);
         }
 
         form.loadThongTinSD(null);
