@@ -155,5 +155,33 @@ public class XuLyDAL {
         }
         return matt;
     }
+    public List<xuly> GetProcessedViolations() {
+    Session session = factory.openSession();
+    List<xuly> processedViolations = null;
+    try {
+        String hql = "FROM xuly WHERE TrangThaiXL = 0";
+        processedViolations = session.createQuery(hql, xuly.class).getResultList();
+    } catch (Exception ex) {
+        ex.printStackTrace();
+    } finally {
+        session.close();
+    }
+    return processedViolations;
+}
+
+public List<xuly> GetProcessingViolations() {
+    Session session = factory.openSession();
+    List<xuly> processingViolations = null;
+    try {
+        String hql = "FROM xuly WHERE TrangThaiXL = 1";
+        processingViolations = session.createQuery(hql, xuly.class).getResultList();
+    } catch (Exception ex) {
+        ex.printStackTrace();
+    } finally {
+        session.close();
+    }
+    return processingViolations;
+}
+
 
 }

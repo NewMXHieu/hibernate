@@ -32,4 +32,12 @@ public class XuLyBLL {
         return xlDal.Search(txt);
     }
     public int AuToID(){return xlDal.AutoCreate();}
+    public List<xuly> GetProcessedViolations() {
+    return xlDal.GetProcessedViolations();
+}
+
+public List<xuly> GetProcessingViolations() {
+    return xlDal.GetProcessingViolations();
+}
+
 }
