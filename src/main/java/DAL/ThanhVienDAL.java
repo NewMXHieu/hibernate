@@ -243,6 +243,37 @@ public class ThanhVienDAL {
         }
         return dem;
     }
-
+    public ArrayList<String> getListKhoa() {
+    	Session session = factory.openSession();
+    	ArrayList<String> list = null;
+    	Transaction tx = null;
+    	try {
+    		tx = session.beginTransaction();
+    		String hql = "SELECT DISTINCT Khoa FROM thanhvien";
+    		Query<String> query = session.createQuery(hql, String.class);
+    		list = (ArrayList<String>) query.getResultList();
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	} finally{
+    		session.close();
+    	}
+    	return list;
+    }
+    public ArrayList<String> getListNganh(){
+    	Session session = factory.openSession();
+    	ArrayList<String> list = null;
+    	Transaction tx = null;
+    	try {
+    		tx = session.beginTransaction();
+    		String hql = "SELECT DISTINCT Nganh FROM thanhvien";
+    		Query<String> query = session.createQuery(hql, String.class);
+    		list = (ArrayList<String>) query.getResultList();
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	} finally{
+    		session.close();
+    	}
+    	return list;
+    }
 }
 

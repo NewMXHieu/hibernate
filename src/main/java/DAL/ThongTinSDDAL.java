@@ -8,6 +8,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class ThongTinSDDAL {
@@ -74,6 +76,38 @@ public class ThongTinSDDAL {
             session.close();
         }
         return list;
+    }
+    public List<thongtinsd> searchTTSD(Date date, String khoa, String nganh){
+        Session session=factory.openSession();
+        Transaction tx =null;
+        List<thongtinsd>list=null;
+        try{
+    		tx= session.beginTransaction();
+        	String hql = "SELECT tt FROM thongtinsd tt JOIN thanhvien tv ON tt.thanhvien = tv.MaTV WHERE ";
+        	if (date != null) {
+        		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        		String dateString = sdf.format(date);
+        		hql += "TGVao between '"+dateString+" 00:00:00' AND '"+dateString+" 23:59:59' AND ";
+        	}
+        	hql += "Khoa = COALESCE(:khoa, Khoa) AND Nganh = COALESCE(:nganh,Nganh)";
+            Query<thongtinsd> query = session.createQuery(hql, thongtinsd.class);
+        	if(khoa != null) {
+        		query.setParameter("khoa", khoa);
+        	} else query.setParameter("khoa", null);
+        	if(nganh != null) {
+        		query.setParameter("nganh", nganh);
+        	} else query.setParameter("nganh", null);
+        	list = query.getResultList();
+        }catch (HibernateException e){
+            if(tx!=null){
+                tx.rollback();
+            }
+            e.printStackTrace();
+        }finally {
+            session.close();
+        }
+        return list;
+
     }
     public List<thongtinsd> readTVById(int matv){
         Session session=factory.openSession();
