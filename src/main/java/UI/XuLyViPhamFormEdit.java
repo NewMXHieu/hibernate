@@ -96,7 +96,7 @@ public class XuLyViPhamFormEdit extends javax.swing.JFrame {
             }
         });
 
-        cbHinhThucXL1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Trạng thái", "Chưa xử lý", "Đã xử ly" }));
+        cbHinhThucXL1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"Chưa xử lý", "Đã xử ly" }));
 
         jLabel6.setText("Trạng thái:");
 
@@ -177,22 +177,28 @@ public class XuLyViPhamFormEdit extends javax.swing.JFrame {
             cbThanhVien.addItem(tv);
         }
     }
-    private void btnEditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditMouseClicked
+    private void btnEditMouseClicked(java.awt.event.MouseEvent evt) {
         if (checkValid()) {
             xuly obj = xlBll.GetXuLyById(maXl);
             String soTienText = txtSoTien.getText();
             int soTien = Integer.parseInt(soTienText);
             String selectedValue = (String) cbThanhVien.getSelectedItem();
             String[] parts = selectedValue.split("_");
-            int maxl = Integer.parseInt(parts[0]);
+            int maThanhVien = Integer.parseInt(parts[0]);
             String hinhThucXL = String.valueOf(cbHinhThucXL.getSelectedItem());
             Date ngayXL = dateXL.getDate();
-            int trangThai = cbHinhThucXL1.getSelectedItem().toString().equals("Chưa xử lý") ? 1 : 0;;
+            String selectedTrangThai = cbHinhThucXL1.getSelectedItem().toString();
+
+            int trangThai = selectedTrangThai.equals("Chưa xử lý") ? 1 : 0;
+            if (trangThai != obj.getTrangThaiXL()) {
+                obj.setTrangThaiXL(trangThai);
+            }
+
             obj.setSoTien(soTien);
-            obj.setMaTV(maxl);
+            obj.setMaTV(maThanhVien);
             obj.setHinhThucXL(hinhThucXL);
             obj.setNgayXL(ngayXL);
-            obj.setTrangThaiXL(trangThai);
+
             if (xlBll.EditXuLy(obj) == 1) {
                 JOptionPane.showMessageDialog(null, "Cập nhật thành công", "Message", JOptionPane.INFORMATION_MESSAGE);
                 form.loadXuLy(null);
@@ -201,25 +207,33 @@ public class XuLyViPhamFormEdit extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Cập nhật thất bại", "Message", JOptionPane.INFORMATION_MESSAGE);
             }
         }
-    }//GEN-LAST:event_btnEditMouseClicked
+    }
+
 
     private void cbThanhVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbThanhVienActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbThanhVienActionPerformed
 
     private void LoadThongTinXuLy(int maXl) {
-        xuly obj = xlBll.GetXuLyById(maXl);
-        if (obj != null) {
-            String hoTen = tvBll.GetHoTenByID(obj.getMaTV());
-            Integer trangThai = Integer.valueOf(obj.getTrangThaiXL());
-            cbThanhVien.setSelectedItem(hoTen);
-            cbHinhThucXL.setSelectedItem(obj.getHinhThucXL());
-            txtSoTien.setText(String.valueOf(obj.getSoTien()));
-            dateXL.setDate(obj.getNgayXL());
-            cbHinhThucXL1.setSelectedItem(trangThai);
-        } else {
+        try {
+            xuly obj = xlBll.GetXuLyById(maXl);
+            if (obj != null) {
+                String hoTen = tvBll.GetHoTenByID(obj.getMaTV());
+                String trangthai = String.valueOf(xlBll.GetXuLyById(obj.getTrangThaiXL()));
+                cbThanhVien.setSelectedItem(hoTen);
+                cbHinhThucXL.setSelectedItem(obj.getHinhThucXL());
+                txtSoTien.setText(String.valueOf(obj.getSoTien()));
+                dateXL.setDate(obj.getNgayXL());
+                cbHinhThucXL1.setSelectedItem(trangthai);
+            } else {
+                // Handle case where obj is null
+            }
+        } catch (Exception ex) {
+            // Handle any exception that occurs during the process
+            ex.printStackTrace();
         }
     }
+
     private boolean checkValid() {
         String hinhThucXL = String.valueOf(cbHinhThucXL.getSelectedItem());
 
@@ -228,7 +242,6 @@ public class XuLyViPhamFormEdit extends javax.swing.JFrame {
             if (!soTienText.isBlank() && !soTienText.isEmpty() && !soTienText.equals("0")) {
                 try {
                     int soTien = Integer.parseInt(soTienText);
-                    // Kiểm tra nếu số tiền là số nguyên dương
                     if (soTien > 0) {
                         return true;
                     } else {

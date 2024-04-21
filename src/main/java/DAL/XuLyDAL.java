@@ -31,13 +31,13 @@ public class XuLyDAL {
     }
     public int CreateXuLy(xuly xl){
         Session session = factory.openSession();
-        int result =0;
+        int result = 0;
         Transaction tx = null;
         try{
             tx = session.beginTransaction();
             session.save(xl);
             tx.commit();
-            result =1;
+            result = 1;
         }catch (HibernateException e){
             if (tx !=null){
                 tx.rollback();
@@ -57,7 +57,7 @@ public class XuLyDAL {
             tx = session.beginTransaction();
             session.update(xl);
             tx.commit();
-            result = 1; // Nếu không có ngoại lệ, cập nhật thành công
+            result = 1;
         } catch (Exception ex) {
             if (tx != null) {
                 tx.rollback();
@@ -120,7 +120,7 @@ public class XuLyDAL {
             }
 
             if (maXuLy != null) {
-                hql = "FROM xuly WHERE TrangThaiXL =1 AND MaXL = :maXuLy";
+                hql = "FROM xuly WHERE MaXL = :maXuLy";
             } else {
                 hql = "SELECT xl FROM xuly xl JOIN thanhvien tv ON tv.MaTV = xl.MaTV WHERE xl.TrangThaiXL = 1 AND tv.HoTen LIKE CONCAT('%', :txt, '%')";
             }
