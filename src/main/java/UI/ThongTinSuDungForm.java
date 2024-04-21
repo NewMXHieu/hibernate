@@ -44,13 +44,31 @@ public class ThongTinSuDungForm extends javax.swing.JDialog {
         ttBll=new ThongTinSDBLL();
         tvBll=new ThanhVienBLL();
         tbBll=new ThietBiBLL();
-        loadThongTinSD(null);
-        LoadComboBox();
         this.matv=maTV;
         this.tgvao=tgVao;
         this.iddau= ttBll.AutoID();
+        addtoSuDung();
+        loadThongTinSD(null);
+        LoadComboBox();
+    }
+    
+    protected void addtoSuDung(){
+        int idcuoi=ttBll.AutoID();
+        if(iddau==idcuoi){
+            int id=idcuoi+1;
+            
+            thongtinsd tt=new thongtinsd();
+            tt.setMaTT(id);
+            tt.setMaTV(matv);
 
-
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime tgvaoDateTime=LocalDateTime.parse(tgvao,formatter);
+            Date tgvaoDate=Date.from(tgvaoDateTime.atZone(ZoneId.systemDefault()).toInstant());
+            tt.setTGVao(tgvaoDate);
+            if(ttBll.AddThongTinSD(tt)==1){
+                JOptionPane.showMessageDialog(null,"Cám ơn đã vào khu học tập","Message",JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
     }
     protected void loadThongTinSD(List l){
         List<thongtinsd>list=null;
@@ -240,22 +258,22 @@ public class ThongTinSuDungForm extends javax.swing.JDialog {
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-        int idcuoi=ttBll.AutoID();
-        if(iddau==idcuoi){
-            int id=idcuoi+1;
-            thongtinsd tt=new thongtinsd();
-            tt.setMaTT(id);
-            tt.setMaTV(matv);
-
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            LocalDateTime tgvaoDateTime=LocalDateTime.parse(tgvao,formatter);
-            Date tgvaoDate=Date.from(tgvaoDateTime.atZone(ZoneId.systemDefault()).toInstant());
-            tt.setTGVao(tgvaoDate);
-            if(ttBll.AddThongTinSD(tt)==1){
-                JOptionPane.showMessageDialog(null,"Cám ơn đã vào khu học tập","Message",JOptionPane.INFORMATION_MESSAGE);
-
-            }
-        }
+//        int idcuoi=ttBll.AutoID();
+//        if(iddau==idcuoi){
+//            int id=idcuoi+1;
+//            
+//            thongtinsd tt=new thongtinsd();
+//            tt.setMaTT(id);
+//            tt.setMaTV(matv);
+//
+//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//            LocalDateTime tgvaoDateTime=LocalDateTime.parse(tgvao,formatter);
+//            Date tgvaoDate=Date.from(tgvaoDateTime.atZone(ZoneId.systemDefault()).toInstant());
+//            tt.setTGVao(tgvaoDate);
+//            if(ttBll.AddThongTinSD(tt)==1){
+//                JOptionPane.showMessageDialog(null,"Cám ơn đã vào khu học tập","Message",JOptionPane.INFORMATION_MESSAGE);
+//            }
+//        }
         JOptionPane.showMessageDialog(null,"Cám ơn đã vào khu học tập","Message",JOptionPane.INFORMATION_MESSAGE);
         this.dispose();
     }

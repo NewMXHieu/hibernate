@@ -33,6 +33,7 @@ public class ThanhVienBLL {
     public thanhvien getById(int maTV) {return tvDal.GetById(maTV);}
 
     public long CheckMaTTExists(int maTV){return tvDal.isMaTVExists(maTV);}
+    
     public long checkViPham(int matv){
         return tvDal.Countvipham(matv);
     }

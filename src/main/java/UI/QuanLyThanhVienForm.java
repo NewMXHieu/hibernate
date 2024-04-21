@@ -310,17 +310,17 @@ public class QuanLyThanhVienForm extends javax.swing.JInternalFrame {
         int row =jTable1.getSelectedRow();
         if (row>=0) {
             TableModel model = jTable1.getModel();
-            int matv = Integer.parseInt(model.getValueAt(row, 0).toString());
+            int ID_TV = Integer.parseInt(model.getValueAt(row, 0).toString());
             try {
-                if(checkVipham(matv)){
-                    LocalDateTime tgvao = LocalDateTime.now();
+                if(checkVipham(ID_TV)){
+                    LocalDateTime Time_Vao = LocalDateTime.now();
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                    String tgVao = tgvao.format(formatter);
-                    ThongTinSuDungForm form = new ThongTinSuDungForm(this, matv,tgVao);
+                    String tgVao = Time_Vao.format(formatter);
+                    ThongTinSuDungForm form = new ThongTinSuDungForm(this, ID_TV, tgVao);
                     form.setVisible(true);
                 }
                 else{
-                    JOptionPane.showMessageDialog(null,"Thành viên "+tvBll.GetHoTenByID(matv)+"dang trong qua trinh xu phat");
+                    JOptionPane.showMessageDialog(null,"Thành viên "+tvBll.GetHoTenByID(ID_TV)+" đang trong quá trình xử phạt");
                 }
             }catch (NumberFormatException ex){
                 ex.printStackTrace();

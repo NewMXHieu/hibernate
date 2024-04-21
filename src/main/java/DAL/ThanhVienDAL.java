@@ -232,7 +232,8 @@ public class ThanhVienDAL {
         Transaction tx = null;
         long dem = 0;
         try {
-            String hql = "SELECT COUNT(*) FROM xuly WHERE TrangThaiXL = 1 AND (SoTien IS NULL OR HinhThucXL='Khóa thẻ 1 tháng và bồi thường') AND maTV = :maTV";
+            String hql = "SELECT COUNT(*) FROM xuly WHERE TrangThaiXL = 1 AND HinhThucXL "
+                    + "IN ('Khóa thẻ 1 tháng', 'Khóa thẻ 2 tháng', 'Khóa thẻ 1 tháng và bồi thường') AND maTV = :maTV";
             Query<Long> query = session.createQuery(hql, Long.class);
             query.setParameter("maTV", matv);
             dem = query.uniqueResult();
