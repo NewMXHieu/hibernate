@@ -276,7 +276,6 @@ public class ThongTinSuDungForm extends javax.swing.JDialog {
         loadThongTinSD(list);
     }
     private void btnTraActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
         List<String>thietbiList=tbBll.GetThietBiTra(matv);
         if(thietbiList==null|| thietbiList.isEmpty()){
             JOptionPane.showMessageDialog(null,"Không có thiết bị nào cần trả!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
@@ -286,15 +285,15 @@ public class ThongTinSuDungForm extends javax.swing.JDialog {
         }
     }
     private void btnMuonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-        List<String>thietbiList=tbBll.GetThietBiMuon();
-        if(thietbiList==null|| thietbiList.isEmpty()){
-            JOptionPane.showMessageDialog(null,"Không còn thiết bị nào có thể mượn!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-        }else {
+        List<String> thietbiList = tbBll.GetThietBiMuon();
+        if (thietbiList == null || thietbiList.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Không còn thiết bị nào có thể mượn!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        } else {
             ThongTinSDMuon form = new ThongTinSDMuon(this, matv, tgvao);
             form.setVisible(true);
         }
     }
+    
 
     /**
      * @param args the command line arguments

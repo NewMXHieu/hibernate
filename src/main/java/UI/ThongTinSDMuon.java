@@ -172,47 +172,47 @@ public class ThongTinSDMuon extends javax.swing.JDialog {
     }// </editor-fold>
 
     private void btnMuonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-        String ma_ten=jLabel3.getText().toString();
-        String[]parts=ma_ten.split("_");
-        //int matv=Integer.parseInt(parts[0]);
-        int selectedIndex=jComboBox1.getSelectedIndex();
-        if(selectedIndex==0){
-            JOptionPane.showMessageDialog(null,"Chưa chọn thiết bị cần mượn!");
+        String selectedDevice = jComboBox1.getSelectedItem().toString();
+        if (selectedDevice.equals("--Chọn Thiết bị--")) {
+            JOptionPane.showMessageDialog(null, "Chưa chọn thiết bị cần mượn!", "Thông báo", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        String selectedValue = (String) jComboBox1.getSelectedItem();
-        String[] part1 = selectedValue.split("_");
-        int matb = Integer.parseInt(part1[0]);
-        int matv=Integer.parseInt(parts[0]);
-        int matt=ttBll.AutoID()+1;
+
+        String[] deviceParts = selectedDevice.split("_");
+        int matb = Integer.parseInt(deviceParts[0]);
+
+        String maTen = jLabel3.getText();
+        String[] parts = maTen.split("_");
+        int matv = Integer.parseInt(parts[0]);
+
+        int matt = ttBll.AutoID() + 1;
 
         LocalDateTime tgMuon = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String tgMuonStr = tgMuon.format(formatter);
-        Date tgmuon= Date.from(tgMuon.atZone(ZoneId.systemDefault()).toInstant());
+        Date tgmuon = Date.from(tgMuon.atZone(ZoneId.systemDefault()).toInstant());
 
         LocalDateTime tgvaoDateTime = LocalDateTime.parse(tgvao, formatter);
         Date tgvaoDate = Date.from(tgvaoDateTime.atZone(ZoneId.systemDefault()).toInstant());
 
-        thongtinsd tt=new thongtinsd();
+        thongtinsd tt = new thongtinsd();
         tt.setMaTT(matt);
         tt.setMaTV(matv);
         tt.setMaTB(matb);
         tt.setTGVao(tgvaoDate);
         tt.setTGMuon(tgmuon);
-        if (ttBll.AddThongTinSD(tt)==1){
-            JOptionPane.showMessageDialog(null,"Mượn thành công ", "Message",JOptionPane.INFORMATION_MESSAGE);
+
+        int addResult = ttBll.AddThongTinSD(tt);
+        if (addResult == 1) {
+            JOptionPane.showMessageDialog(null, "Mượn thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             this.dispose();
-        }else {
-            JOptionPane.showMessageDialog(null, "Mượn không thành công", "Message", JOptionPane.WARNING_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Mượn không thành công", "Thông báo", JOptionPane.WARNING_MESSAGE);
         }
-        //Date tgVao=jLabel7.getText();
+
         form.loadThongTinSD(null);
-
-
-
     }
+
 
     private void btnThoatActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:

@@ -16,46 +16,28 @@ public class ThongTinSDDAL {
         factory=HibernateUtil.getSessionFactory();
     }
 
-    public int AddTTSD(thongtinsd ttsd){
-        Session session=factory.openSession();
-        int result=0;
-        Transaction tx=null;
-        try{
-            tx=session.beginTransaction();
+    public int AddTTSD(thongtinsd ttsd) {
+        try (Session session = factory.openSession()) {
+            Transaction tx = session.beginTransaction();
             session.save(ttsd);
             tx.commit();
-            result=1;
-        }catch (HibernateException e){
-            if(tx!=null){
-                tx.rollback();
-            }
+            return 1;
+        } catch (HibernateException e) {
             e.printStackTrace();
-        }finally
-            {
-                session.close();
-            }
-        return result;
+            return 0;
+        }
     }
-    public int UpdateTTSD(thongtinsd ttsd){
-        Session session=factory.openSession();
-        Transaction tx=null;
-        int result=0;
-        try{
-            tx = session.beginTransaction();
+    public int UpdateTTSD(thongtinsd ttsd) {
+        try (Session session = factory.openSession()) {
+            Transaction tx = session.beginTransaction();
             session.update(ttsd);
             tx.commit();
-            result = 1;
-        }catch (Exception ex){
-            if (tx != null) {
-                tx.rollback();
-            }
-            ex.printStackTrace();
-        }finally {
-            session.close();
+            return 1;
+        } catch (HibernateException e) {
+            e.printStackTrace();
+            return 0;
         }
-        return result;
     }
-
 
     public List<thongtinsd> ReadTTSD(){
         Session session=factory.openSession();
@@ -106,20 +88,15 @@ public class ThongTinSDDAL {
         return matt;
     }
     public thongtinsd UpdateMuon(int matv, int matb) {
-        Session session = factory.openSession();
-        thongtinsd obj = null;
-        try {
-            String hql = "FROM thongtinsd tt WHERE tt.MaTV = :maTV AND tt.MaTB = :maTB AND TGTra IS NULL";
-            Query<thongtinsd> query = session.createQuery(hql, thongtinsd.class);
+        try (Session session = factory.openSession()) {
+            Query<thongtinsd> query = session.createQuery("FROM thongtinsd WHERE MaTV = :maTV AND MaTB = :maTB AND TGTra IS NULL", thongtinsd.class);
             query.setParameter("maTV", matv);
             query.setParameter("maTB", matb);
-            obj = query.uniqueResult();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        } finally {
-            session.close();
+            return query.uniqueResult();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+            return null;
         }
-        return obj;
     }
 
 }
