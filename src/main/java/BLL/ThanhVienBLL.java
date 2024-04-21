@@ -3,7 +3,6 @@ package BLL;
 import DAL.ThanhVienDAL;
 import hibernate.entity.thanhvien;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
