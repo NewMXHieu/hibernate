@@ -17,6 +17,7 @@ public class ThongKeForm extends javax.swing.JInternalFrame {
     private final XuLyBLL xuLyBLL = new XuLyBLL();
     private List<xuly> processedViolations;
     private List<xuly> processingViolations;
+    private List<xuly> allViolations;
 
     public ThongKeForm() {
         initComponents();
@@ -28,6 +29,7 @@ public class ThongKeForm extends javax.swing.JInternalFrame {
     }
 
     private void fetchData() {
+        allViolations= xuLyBLL.GetAllXuLy();
         processedViolations = xuLyBLL.GetProcessedViolations();
         processingViolations = xuLyBLL.GetProcessingViolations();
     }
@@ -83,7 +85,7 @@ public class ThongKeForm extends javax.swing.JInternalFrame {
         tableModel.addColumn("TongSotien");
         tableModel.addColumn("TrangThaiXuLy");
 
-        for (xuly violation : processedViolations) {
+        for (xuly violation : allViolations) {
             String trangThai = violation.getTrangThaiXL() == 0 ? "Đã xử lý" : "Đang xử lý";
             tableModel.addRow(new Object[]{
                     violation.getMaXL(),
