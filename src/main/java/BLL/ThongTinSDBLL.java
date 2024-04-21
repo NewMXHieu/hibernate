@@ -4,6 +4,7 @@ package BLL;
 import DAL.ThongTinSDDAL;
 import hibernate.entity.thongtinsd;
 
+import java.util.Date;
 import java.util.List;
 
 public class ThongTinSDBLL {
