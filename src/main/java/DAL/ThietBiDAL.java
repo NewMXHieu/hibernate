@@ -1,4 +1,3 @@
-
 package DAL;
 
 /**
@@ -25,7 +24,6 @@ import org.hibernate.query.Query;
 import org.hibernate.type.IntegerType;
 
 public class ThietBiDAL {
-
     static SessionFactory factory;
 
     // Constructor
@@ -133,22 +131,6 @@ public class ThietBiDAL {
         return list;
     }
 
-    public thietbi GetThietBiById(int maTb) {
-        Session session = factory.openSession();
-        thietbi obj = null;
-        try {
-            String hql = "FROM thietbi WHERE MaTb = :maTb";
-            Query<thietbi> query = session.createQuery(hql, thietbi.class);
-            query.setParameter("maTb", maTb);
-            obj = query.uniqueResult();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        } finally {
-            session.close();
-        }
-        return obj;
-    }
-
     public List<thietbi> Search(String txt) {
         Session session = factory.openSession();
         List<thietbi> result = null;
@@ -233,6 +215,22 @@ public class ThietBiDAL {
             session.close();
         }
         return result;
+    }
+
+    public thietbi GetThietBiById(int maTb) {
+        Session session = factory.openSession();
+        thietbi obj = null;
+        try {
+            String hql = "FROM thietbi WHERE MaTb = :maTb";
+            Query<thietbi> query = session.createQuery(hql, thietbi.class);
+            query.setParameter("maTb", maTb);
+            obj = query.uniqueResult();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return obj;
     }
 
     public String GetTenThietBiById(int matb) {
