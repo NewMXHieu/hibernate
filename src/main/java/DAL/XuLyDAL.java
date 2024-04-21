@@ -115,14 +115,11 @@ public class XuLyDAL {
             Integer maXuLy = null;
             try {
                 maXuLy = Integer.parseInt(txt);
-            } catch (NumberFormatException e) {
-                // Do nothing, txt không thể chuyển đổi thành Integer, vẫn giữ giá trị null cho maThietBi
-            }
-
+            } catch (NumberFormatException e) {}
             if (maXuLy != null) {
                 hql = "FROM xuly WHERE MaXL = :maXuLy";
             } else {
-                hql = "SELECT xl FROM xuly xl JOIN thanhvien tv ON tv.MaTV = xl.MaTV WHERE xl.TrangThaiXL = 1 AND tv.HoTen LIKE CONCAT('%', :txt, '%')";
+                hql = "SELECT xl FROM xuly xl JOIN thanhvien tv ON tv.MaTV = xl.MaTV WHERE tv.HoTen LIKE CONCAT('%', :txt, '%')";
             }
 
             Query<xuly> query = session.createQuery(hql, xuly.class);
