@@ -6,6 +6,7 @@ package UI;
 import BLL.ThanhVienBLL;
 
 import hibernate.entity.thanhvien;
+import hibernate.entity.thietbi;
 import  javax.swing.JOptionPane;
 /**
  *
@@ -23,18 +24,77 @@ public class QuanLyThanhVienFormAdd extends javax.swing.JDialog {
         form=f;
         tvBll=new ThanhVienBLL();
     }
-    /*
+    
     private void AddThanhVien() {
         if (checkValid()) {
-
+            //int maTb = Integer.parseInt(txtMa.getText());
+            thanhvien tv = new thanhvien();
+            //tv.setMaTV(maTv);
+            tv.setHoTen(txbTen.getText());
+            tv.setKhoa(txbKhoa.getText());
+            tv.setNganh(txbNganh.getText());
+            tv.setSDT(txbSdt.getText());
+            if (tvBll.AddThanhVien(tv) == 1) {
+                JOptionPane.showMessageDialog(null, "Thêm thành viên thành công", "Message", JOptionPane.INFORMATION_MESSAGE);
+                form.LoadThanhVien(null);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "Thêm thành viên thất bại", "Message", JOptionPane.INFORMATION_MESSAGE);
+            }
         }
     }
 
     private boolean checkValid(){
-        if(txb)
+        /**if (txtMa.getText().isBlank()) {
+            JOptionPane.showMessageDialog(null, "Không được để trống Mã thiết bị", "Message", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (txtMa.getText().length() != 7) {
+            JOptionPane.showMessageDialog(null, "Mã thiết bị phải có 7 số", "Message", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (!txtMa.getText().matches("\\d+")) {
+            JOptionPane.showMessageDialog(null, "Mã thiết bị không được chứa ký tự", "Message", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (tbBll.CheckMaTBExists(Integer.parseInt(txtMa.getText())) > 0) {
+            JOptionPane.showMessageDialog(null, "Mã thiết bị đã tồn tại", "Message", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }*/
+        if (txbTen.getText().isBlank()) {
+            JOptionPane.showMessageDialog(null, "Không được để trống tên thành viên", "Message", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (txbKhoa.getText().isBlank()) {
+            JOptionPane.showMessageDialog(null, "Không được để trống khoa", "Message", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (txbNganh.getText().isBlank()) {
+            JOptionPane.showMessageDialog(null, "Không được để trống ngành", "Message", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (txbSdt.getText().isBlank()) {
+            JOptionPane.showMessageDialog(null, "Không được để trống số điện thoại", "Message", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        
+        if(txbTen.getText().isBlank() || txbKhoa.getText().isBlank()||txbNganh.getText().isBlank()||txbSdt.getText().isBlank()){
+            JOptionPane.showMessageDialog(null,"Không được để trống thongo tin!","Message",JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        if(!txbTen.getText().matches(".*\\d.*")){}
+        else{
+            JOptionPane.showMessageDialog(null,"Tên không được chứa số!","Message",JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        if(!txbSdt.getText().matches("\\d{10}")){
+            JOptionPane.showMessageDialog(null,"Số điện thoại phải đủ 10 số","Message",JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+
+        return true;
     }
 
-     */
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -161,13 +221,12 @@ public class QuanLyThanhVienFormAdd extends javax.swing.JDialog {
     }// </editor-fold>
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        AddThanhVien();
     }
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
-
 
     // Variables declaration - do not modify
     private javax.swing.JButton jButton1;

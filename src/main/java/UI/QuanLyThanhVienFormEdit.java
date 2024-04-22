@@ -162,7 +162,7 @@ public class QuanLyThanhVienFormEdit extends javax.swing.JDialog {
             obj.setHoTen(txbTen.getText());
             obj.setKhoa(txbKhoa.getText());
             obj.setNganh(txbNganh.getText());
-            obj.setSDT(Integer.parseInt(txbSdt.getText()));
+            obj.setSDT(txbSdt.getText());
             if(tvBll.EditThanhVien(obj)==1){
                 JOptionPane.showMessageDialog(null,"Sửa thông tin thành công","Message",JOptionPane.INFORMATION_MESSAGE);
                 form.LoadThanhVien(null);

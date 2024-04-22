@@ -46,7 +46,7 @@ public class ThanhVienDAL {
 
     public int CreateThanhVien(thanhvien tv) {
         Session session = factory.openSession();
-        int result = 0;
+        int result = 0;        
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -210,7 +210,7 @@ public class ThanhVienDAL {
                     obj.setHoTen(row.getCell(1).getStringCellValue());
                     obj.setKhoa(row.getCell(2).getStringCellValue());
                     obj.setNganh(row.getCell(3).getStringCellValue());
-                    obj.setSDT((int)row.getCell(4).getNumericCellValue());
+                    obj.setSDT(row.getCell(4).getStringCellValue());
                     session.save(obj);
                     result++;
                 }
