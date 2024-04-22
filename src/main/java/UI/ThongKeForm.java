@@ -12,9 +12,22 @@ import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableModel;
 
 import BLL.ThanhVienBLL;
+import BLL.ThietBiBLL;
 import BLL.ThongTinSDBLL;
 import hibernate.entity.thanhvien;
+import hibernate.entity.thietbi;
 import hibernate.entity.thongtinsd;
+import javax.swing.JScrollPane;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.GroupLayout;
+import javax.swing.JTable;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.JComboBox;
+import javax.swing.JButton;
+import com.toedter.calendar.JDateChooser;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JPanel;
 
 /**
  *
@@ -27,6 +40,8 @@ public class ThongKeForm extends javax.swing.JInternalFrame {
      */
     private ThongTinSDBLL ttBLL;
     private ThanhVienBLL tvBLL;
+    private ThietBiBLL tbBLL;
+	
     public ThongKeForm() {
         initComponents();
         this.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -34,8 +49,11 @@ public class ThongKeForm extends javax.swing.JInternalFrame {
         ui.setNorthPane(null);
         ttBLL = new ThongTinSDBLL();
         tvBLL = new ThanhVienBLL();
+        tbBLL = new ThietBiBLL();
         loadTVTable(null);
         loadCombobox();
+        loadTBDuocMuonTable(null);
+        loadTBDangDuocMuonTable(null);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -79,16 +97,16 @@ public class ThongKeForm extends javax.swing.JInternalFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         jLabel2.setText("Lịch sử vào khu học tập");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-                new Object [][] {
-                        {null, null, null},
-                        {null, null, null},
-                        {null, null, null},
-                        {null, null, null}
-                },
-                new String [] {
-                        "Họ và Tên", "Khoa", "Ngành", "Thời gian vào"
-                }
+        jTable1.setModel(new DefaultTableModel(
+        	new Object[][] {
+        		{null, null, null, null},
+        		{null, null, null, null},
+        		{null, null, null, null},
+        		{null, null, null, null},
+        	},
+        	new String[] {
+        		"H\u1ECD v\u00E0 T\u00EAn", "Khoa", "Ng\u00E0nh", "Th\u1EDDi gian v\u00E0o"
+        	}
         ));
         jScrollPane1.setViewportView(jTable1);
 
@@ -179,17 +197,175 @@ public class ThongKeForm extends javax.swing.JInternalFrame {
         );
 
         jTabbedPane2.addTab("Thành viên", jPanel4);
+        
+        JLabel lblLchSVo = new JLabel();
+        lblLchSVo.setText("Thiết bị được mượn");
+        lblLchSVo.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        
+        JButton jButton2_1 = new JButton();
+        jButton2_1.setText("Search");
+        jButton2_1.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        
+        JButton jButton1_1 = new JButton();
+        jButton1_1.setText("Refresh");
+        jButton1_1.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        
+        JComboBox<String> jComboBox1_1 = new JComboBox<String>();
+        
+        JDateChooser jDateChooser1_1 = new JDateChooser();
+        
+        JLabel jLabel3_1 = new JLabel();
+        jLabel3_1.setText("Tổng số lượt mượn:");
+        jLabel3_1.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        
+        JDateChooser jDateChooser1_1_1 = new JDateChooser();
+        
+        JLabel lblThitBang = new JLabel();
+        lblThitBang.setText("Thiết bị đang được mượn");
+        lblThitBang.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        
+        jButton2_2 = new JButton();
+        jButton2_2.setText("Search");
+        jButton2_2.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        
+        jButton1_2 = new JButton();
+        jButton1_2.setText("Refresh");
+        jButton1_2.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        
+        text = new JLabel("New label");
+        text.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        
+        JScrollPane scrollPane = new JScrollPane();
+        
+        scrollPane_1 = new JScrollPane();
+        
+        scrollPane_2 = new JScrollPane();
+        
+        JLabel jLabel3_1_1 = new JLabel();
+        jLabel3_1_1.setText("Tổng số lượt đang mượn:");
+        jLabel3_1_1.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        
+        lblNewLabel = new JLabel("New label");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
-                jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 1017, Short.MAX_VALUE)
+        	jPanel5Layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(jPanel5Layout.createSequentialGroup()
+        			.addGroup(jPanel5Layout.createParallelGroup(Alignment.LEADING)
+        				.addGroup(jPanel5Layout.createSequentialGroup()
+        					.addGroup(jPanel5Layout.createParallelGroup(Alignment.LEADING)
+        						.addGroup(jPanel5Layout.createSequentialGroup()
+        							.addGroup(jPanel5Layout.createParallelGroup(Alignment.LEADING)
+        								.addComponent(jDateChooser1_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        								.addGroup(jPanel5Layout.createSequentialGroup()
+        									.addGap(10)
+        									.addComponent(jLabel3_1, GroupLayout.PREFERRED_SIZE, 135, GroupLayout.PREFERRED_SIZE)))
+        							.addPreferredGap(ComponentPlacement.RELATED)
+        							.addComponent(text, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+        							.addGap(26)
+        							.addGroup(jPanel5Layout.createParallelGroup(Alignment.LEADING)
+        								.addComponent(jComboBox1_1, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
+        								.addGroup(jPanel5Layout.createSequentialGroup()
+        									.addComponent(jButton2_1, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
+        									.addGap(18)
+        									.addComponent(jButton1_1))))
+        						.addGroup(jPanel5Layout.createSequentialGroup()
+        							.addContainerGap()
+        							.addComponent(lblLchSVo)))
+        					.addGap(181)
+        					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+        				.addGroup(jPanel5Layout.createSequentialGroup()
+        					.addGap(1)
+        					.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 421, GroupLayout.PREFERRED_SIZE)))
+        			.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        			.addGroup(jPanel5Layout.createParallelGroup(Alignment.LEADING)
+        				.addGroup(jPanel5Layout.createSequentialGroup()
+        					.addGroup(jPanel5Layout.createParallelGroup(Alignment.LEADING)
+        						.addComponent(jDateChooser1_1_1, GroupLayout.PREFERRED_SIZE, 147, GroupLayout.PREFERRED_SIZE)
+        						.addComponent(lblThitBang, GroupLayout.PREFERRED_SIZE, 253, GroupLayout.PREFERRED_SIZE)
+        						.addGroup(jPanel5Layout.createSequentialGroup()
+        							.addComponent(jButton2_2, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
+        							.addGap(18)
+        							.addComponent(jButton1_2)
+        							.addPreferredGap(ComponentPlacement.RELATED)
+        							.addComponent(jLabel3_1_1, GroupLayout.PREFERRED_SIZE, 181, GroupLayout.PREFERRED_SIZE)
+        							.addPreferredGap(ComponentPlacement.RELATED)
+        							.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)))
+        					.addGap(74))
+        				.addGroup(jPanel5Layout.createSequentialGroup()
+        					.addComponent(scrollPane_2, GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
+        					.addContainerGap())))
         );
         jPanel5Layout.setVerticalGroup(
-                jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 543, Short.MAX_VALUE)
+        	jPanel5Layout.createParallelGroup(Alignment.TRAILING)
+        		.addGroup(jPanel5Layout.createSequentialGroup()
+        			.addGroup(jPanel5Layout.createParallelGroup(Alignment.TRAILING)
+        				.addGroup(jPanel5Layout.createSequentialGroup()
+        					.addGap(133)
+        					.addGroup(jPanel5Layout.createParallelGroup(Alignment.LEADING)
+        						.addComponent(lblLchSVo, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
+        						.addComponent(lblThitBang, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE))
+        					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        					.addGroup(jPanel5Layout.createParallelGroup(Alignment.TRAILING)
+        						.addGroup(jPanel5Layout.createParallelGroup(Alignment.LEADING)
+        							.addGroup(jPanel5Layout.createSequentialGroup()
+        								.addGroup(jPanel5Layout.createParallelGroup(Alignment.LEADING)
+        									.addComponent(jComboBox1_1, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
+        									.addComponent(jDateChooser1_1, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
+        								.addGap(18)
+        								.addGroup(jPanel5Layout.createParallelGroup(Alignment.BASELINE)
+        									.addComponent(jLabel3_1, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+        									.addComponent(jButton2_1, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
+        									.addComponent(jButton1_1, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
+        									.addComponent(text)))
+        							.addGroup(jPanel5Layout.createSequentialGroup()
+        								.addComponent(jDateChooser1_1_1, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
+        								.addGap(18)
+        								.addGroup(jPanel5Layout.createParallelGroup(Alignment.LEADING)
+        									.addComponent(jButton1_2, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
+        									.addComponent(jButton2_2, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE))))
+        						.addGroup(jPanel5Layout.createSequentialGroup()
+        							.addGroup(jPanel5Layout.createParallelGroup(Alignment.BASELINE)
+        								.addComponent(jLabel3_1_1, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+        								.addComponent(lblNewLabel))
+        							.addGap(8))))
+        				.addGroup(jPanel5Layout.createSequentialGroup()
+        					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        					.addGap(119)))
+        			.addGroup(jPanel5Layout.createParallelGroup(Alignment.LEADING, false)
+        				.addGroup(jPanel5Layout.createSequentialGroup()
+        					.addGap(8)
+        					.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 277, GroupLayout.PREFERRED_SIZE))
+        				.addGroup(jPanel5Layout.createSequentialGroup()
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(scrollPane_2, 0, 0, Short.MAX_VALUE)))
+        			.addContainerGap())
         );
+        
+        table_1 = new JTable();
+        scrollPane_2.setViewportView(table_1);
+        table_1.setModel(new DefaultTableModel(
+        	new Object[][] {
+        		{null, null},
+        		{null, null},
+        	},
+        	new String[] {
+        		"Th\u1EDDi gian", "T\u00EAn thi\u1EBFt b\u1ECB"
+        	}
+        ));
+        
+        table = new JTable();
+        scrollPane_1.setViewportView(table);
+        table.setModel(new DefaultTableModel(
+        	new Object[][] {
+        		{null, null},
+        		{null, null},
+        	},
+        	new String[] {
+        		"Th\u1EDDi gian", "T\u00EAn thi\u1EBFt b\u1ECB"
+        	}
+        ));
+        jPanel5.setLayout(jPanel5Layout);
 
         jTabbedPane2.addTab("Thiết bị", jPanel5);
 
@@ -286,10 +462,47 @@ public class ThongKeForm extends javax.swing.JInternalFrame {
     	loadTVTable(null);
     }
     private void jDateChooser1AncestorResized(java.awt.event.HierarchyEvent evt) {
-        // TODO add your handling code here:
     }
 
 
+    private void loadTBDuocMuonTable(List l) {
+    	List<thongtinsd> listTTSD = null;
+    	if (l == null)
+    		listTTSD = ttBLL.GetAllThongTinSD();
+    	else listTTSD = l;
+    	DefaultTableModel model = (DefaultTableModel) table.getModel();   
+    	model.setRowCount(0);
+    	int soluong = 0;
+    	for (thongtinsd tt : listTTSD) {
+    		thietbi tb = tbBLL.GetThietBiById(tt.getMaTB());
+    		Object[] row = {
+    				tt.getTGMuon(),
+    				tb.getTenTB()
+    		};
+    		soluong = soluong + 1;
+    		model.addRow(row);
+    	}
+    	text.setText(Integer.toString(soluong));
+    }
+    private void loadTBDangDuocMuonTable(List l) {
+    	List<thongtinsd> listTTSD = null;
+    	if (l == null)
+    		listTTSD = ttBLL.GetAllThongTinSD();
+    	else listTTSD = l;
+    	DefaultTableModel model = (DefaultTableModel) table_1.getModel();   
+    	model.setRowCount(0);
+    	int soluong = 0;
+    	for (thongtinsd tt : listTTSD) {
+    		thietbi tb = tbBLL.GetThietBiById(tt.getMaTB());
+    		Object[] row = {
+    				tt.getTGMuon(),
+    				tb.getTenTB()
+    		};
+    		soluong = soluong + 1;
+    		model.addRow(row);
+    	}
+    	lblNewLabel.setText(Integer.toString(soluong));
+    }
     // Variables declaration - do not modify
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -306,5 +519,12 @@ public class ThongKeForm extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTable jTable1;
-    // End of variables declaration
+    private JTable table;
+    private JTable table_1;
+    private JButton jButton2_2;
+    private JButton jButton1_2;
+    private JLabel text;
+    private JScrollPane scrollPane_1;
+    private JScrollPane scrollPane_2;
+    private JLabel lblNewLabel;
 }
